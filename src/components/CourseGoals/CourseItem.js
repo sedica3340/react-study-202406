@@ -1,7 +1,12 @@
 import React from 'react';
 import './CourseItem.css';
-const CourseItem = ({ item }) => {
-  return <li className="goal-item">{item.text}</li>;
+const CourseItem = ({ item, onRemove }) => {
+
+    const clickHandler = (e) => {
+        onRemove(item.id);
+    }
+
+  return <li className="goal-item" onClick={clickHandler}>{item.text}</li>;
 };
 
 export default CourseItem;

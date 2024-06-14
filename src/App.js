@@ -19,13 +19,21 @@ const DUMMY_DATA = [
 const App = () => {
     const [goals, setGoals] = useState(DUMMY_DATA);
 
+    const addGoal = (data) => {
+        setGoals([...goals, data]);
+    };
+    const removeGoal = (id) => {
+        const removedGoals = goals.filter((goal) => goal.id !== id);
+        setGoals(removedGoals);
+    };
+
     return (
         <div>
             <section id="goal-form">
-                <CourseInput />
+                <CourseInput onAdd={addGoal} />
             </section>
             <section id="goals">
-                <CourseList items={goals} />
+                <CourseList items={goals} onRemove={removeGoal} />
             </section>
         </div>
     );
