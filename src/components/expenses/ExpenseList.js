@@ -1,9 +1,12 @@
 import React, { useState } from "react";
 import ExpenseItem from "./ExpenseItem";
 import ExpenseFilter from "./ExpenseFilter";
-
+import "./ExpenseList.css";
+import ExpenseChart from "../chart/ExpenseChart";
 const ExpenseList = ({ expenses }) => {
-    const [filteredYear, setFilteredYear] = useState(new Date().getFullYear().toString());
+    const [filteredYear, setFilteredYear] = useState(
+        new Date().getFullYear().toString()
+    );
     const onFilterChange = (filteredYear) => {
         setFilteredYear(filteredYear);
     };
@@ -15,20 +18,26 @@ const ExpenseList = ({ expenses }) => {
     //     ));
     // };
 
+    const filteredExpenses = expenses.filter(
+        (ex) => ex.date.getFullYear().toString() === filteredYear
+    );
+    let content = <p>지출 항목이 없습니다.</p>;
+
+    if (filteredExpenses.length) {
+        content = filteredExpenses.map((ex) => (
+            <ExpenseItem
+                key={Math.random().toString()}
+                title={ex.title}
+                price={ex.price}
+                date={ex.date}
+            />
+        ));
+    }
     return (
         <div className="expenses">
             <ExpenseFilter onFilterChange={onFilterChange} />
-
-            {expenses
-                .filter((ex) => ex.date.getFullYear().toString() === filteredYear)
-                .map((ex) => (
-                    <ExpenseItem
-                        key={Math.random().toString()}
-                        title={ex.title}
-                        price={ex.price}
-                        date={ex.date}
-                    />
-                ))}
+            <ExpenseChart />
+            {content}
         </div>
     );
 };
