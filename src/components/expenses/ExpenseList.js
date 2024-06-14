@@ -1,24 +1,34 @@
-import React from "react";
+import React, { useState } from "react";
 import ExpenseItem from "./ExpenseItem";
+import ExpenseFilter from "./ExpenseFilter";
 
 const ExpenseList = ({ expenses }) => {
+    const [filteredYear, setFilteredYear] = useState(new Date().getFullYear().toString());
+    const onFilterChange = (filteredYear) => {
+        setFilteredYear(filteredYear);
+    };
+
+    // App.js에서 받은 expenses 배열을  <ExpenseItem> 배열로 변환하는 함수
+    // const convertToComponent = () => {
+    //     return expenses.map((ex) => (
+    //         <ExpenseItem title={ex.title} price={ex.price} date={ex.date} />
+    //     ));
+    // };
+
     return (
         <div className="expenses">
-            <ExpenseItem
-                title={expenses[0].title}
-                price={expenses[0].price}
-                date={expenses[0].date}
-            />
-            <ExpenseItem
-                title={expenses[1].title}
-                price={expenses[1].price}
-                date={expenses[1].date}
-            />
-            <ExpenseItem
-                title={expenses[2].title}
-                price={expenses[2].price}
-                date={expenses[2].date}
-            />
+            <ExpenseFilter onFilterChange={onFilterChange} />
+
+            {expenses
+                .filter((ex) => ex.date.getFullYear().toString() === filteredYear)
+                .map((ex) => (
+                    <ExpenseItem
+                        key={Math.random().toString()}
+                        title={ex.title}
+                        price={ex.price}
+                        date={ex.date}
+                    />
+                ))}
         </div>
     );
 };
