@@ -2,9 +2,13 @@ import React, { useState } from "react";
 
 import "./ChartBar.css";
 
-const ChartBar = ({label}) => {
+const ChartBar = ({ label, monthValue, totalValue }) => {
+    let barFillHeight = '0%';
 
-    const [barFillHeight, setBarFillHeight] = useState('70%');
+    if(totalValue > 0) {
+        const percentage = (monthValue / totalValue) * 100;
+        barFillHeight = percentage + '%';
+    }
 
     return (
         <div className="chart-bar">
