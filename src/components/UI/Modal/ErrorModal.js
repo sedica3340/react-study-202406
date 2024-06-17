@@ -1,9 +1,8 @@
 import React from "react";
-import ReactDOM from "react-dom";
 import Card from "../Card";
 import Button from "../Button";
 import styles from "./ErrorModal.module.css";
-
+import Portal from "../Portal/Portal";
 const BackDrop = ({ onClose }) => {
     return <div className={styles.backdrop} onClick={onClose} />;
 };
@@ -27,18 +26,17 @@ const ModalOveray = ({ title, message, onClose }) => {
 const ErrorModal = ({ title, message, onClose }) => {
     return (
         <>
-            {ReactDOM.createPortal(
+            <Portal destId={"backdrop-root"}>
                 <BackDrop onClose={onClose} />,
-                document.getElementById("backdrop-root")
-            )}
-            {ReactDOM.createPortal(
+            </Portal>
+            <Portal destId={"overlay-root"}>
                 <ModalOveray
                     title={title}
                     message={message}
                     onClose={onClose}
-                />,
-                document.getElementById("overlay-root")
-            )}
+                />
+                ,
+            </Portal>
         </>
     );
 };
