@@ -1,29 +1,21 @@
-import React, { useRef, useState } from "react";
-import "./App.css";
-import AddUsers from "./components/Users/AddUsers";
-import UserList from "./components/Users/UserList";
+import React, { useRef, useState } from 'react';
+import './App.css';
+import MainHeader from './components/SideEffect/MainHeader';
+import Login from './components/SideEffect/Login';
+import Home from './components/SideEffect/Home';
+
 
 const App = () => {
-    const [userList, setUserList] = useState([]);
-    const count = useRef(1);
 
-    const addUserHandler = (user) => {
-        count.current++;
-
-        console.log('count: ', count.current);
-
-        console.log(user);
-        setUserList((prev) => [
-            ...prev,
-            { ...user, id: Math.random().toString() },
-        ]);
-    };
-    return (
-        <>
-            <AddUsers onAddUser={addUserHandler} />
-            <UserList users={userList} />
-        </>
-    );
+  return (
+    <>
+      <MainHeader />
+      <main>
+        <Home />
+        {/* <Login/> */}
+      </main>
+    </>
+  );
 };
 
 export default App;
