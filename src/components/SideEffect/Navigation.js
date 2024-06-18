@@ -1,20 +1,20 @@
 import React from "react";
 import styles from "./Navigation.module.css";
 
-const Navigation = () => {
+const Navigation = ({onLogout}) => {
     return <nav
     className={styles.nav}>
         <ul>
             <li>
-                <a href="/">MyPage</a>
+                <button href="/">MyPage</button>
             </li>
 
             <li>
-                <a href="/">Admin</a>
+                <button href="/">Admin</button>
             </li>
-            
+
             <li>
-                <a href="/">Logout</a>
+                <button href="/" onClick={onLogout} >Logout</button>
             </li>
         </ul>
     </nav>;
