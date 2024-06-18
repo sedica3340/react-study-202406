@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import styles from "./AddUsers.module.css";
 import Card from "../UI/Card";
 import Button from "../UI/Button";
@@ -8,31 +8,39 @@ const AddUsers = ({ onAddUser }) => {
     // 에러 상태 관리
     const [error, setError] = useState(null);
 
-    const [userValue, setUserValue] = useState({
-        username: "",
-        age: "",
-    });
+    const usernameRef = useRef();
+    const ageRef = useRef();
 
-    const usernameChangeHandler = (e) => {
-        setUserValue((prevUserValue) => ({
-            ...prevUserValue,
-            username: e.target.value,
-        }));
-    };
+    // const [userValue, setUserValue] = useState({
+    //     username: "",
+    //     age: "",
+    // });
 
-    const ageChangeHandler = (e) => {
-        setUserValue((prevUserValue) => ({
-            ...prevUserValue,
-            age: e.target.value,
-        }));
-    };
+    // const usernameChangeHandler = (e) => {
+    //     setUserValue((prevUserValue) => ({
+    //         ...prevUserValue,
+    //         username: e.target.value,
+    //     }));
+    // };
+
+    // const ageChangeHandler = (e) => {
+    //     setUserValue((prevUserValue) => ({
+    //         ...prevUserValue,
+    //         age: e.target.value,
+    //     }));
+    // };
 
     const modalCloser = () => {
         setError(null);
-    }
+    };
 
     const userSubmitHandler = (e) => {
         e.preventDefault();
+
+        const userValue = {
+            username: usernameRef.current.value,
+            age: ageRef.current.value,
+        };
 
         // 입력값 검증
         if (userValue.username.trim() === "" || userValue.age.trim() === "") {
@@ -53,16 +61,24 @@ const AddUsers = ({ onAddUser }) => {
 
         onAddUser(userValue);
 
-        setUserValue({
-            username: "",
-            age: "",
-        });
+        usernameRef.current.value = '';
+        ageRef.current.value = '';
+
+        usernameRef.current.focus();
+        // setUserValue({
+        //     username: "",
+        //     age: "",
+        // });
     };
 
     return (
         <>
             {error && (
-                <ErrorModal onClose={modalCloser} title={error.title} message={error.message} />
+                <ErrorModal
+                    onClose={modalCloser}
+                    title={error.title}
+                    message={error.message}
+                />
             )}
             <Card className={styles.input}>
                 <form onSubmit={userSubmitHandler}>
@@ -70,15 +86,17 @@ const AddUsers = ({ onAddUser }) => {
                     <input
                         id="username"
                         type="text"
-                        onChange={usernameChangeHandler}
-                        value={userValue.username}
+                        ref={usernameRef}
+                        // onChange={usernameChangeHandler}
+                        // value={userValue.username}
                     />
                     <label htmlFor="age">나이</label>
                     <input
                         id="age"
                         type="number"
-                        onChange={ageChangeHandler}
-                        value={userValue.age}
+                        ref={ageRef}
+                        // onChange={ageChangeHandler}
+                        // value={userValue.age}
                     />
                     <Button type="submit">가입하기</Button>
                 </form>
