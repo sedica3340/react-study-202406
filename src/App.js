@@ -4,6 +4,8 @@ import MainHeader from "./components/SideEffect/MainHeader";
 import Login from "./components/SideEffect/Login";
 import Home from "./components/SideEffect/Home";
 
+import AuthContext from "./store/auth-context";
+
 const App = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
 
@@ -26,13 +28,16 @@ const App = () => {
     }
 
     return (
-        <>
-            <MainHeader onLogout={logoutHandler} />
+        <AuthContext.Provider value={{
+            isLoggedIn: isLoggedIn,
+            onLogout: logoutHandler,
+        }}>
+            <MainHeader />
             <main>
                 {isLoggedIn && <Home />}
                 {!isLoggedIn && <Login onLogin={loginHandler} />}
             </main>
-        </>
+        </AuthContext.Provider>
     );
 };
 
