@@ -1,14 +1,27 @@
-import React from "react";
+import React, { useState, useRef } from "react";
 import Input from "../../../UI/Input/Input";
 import styles from "./MealItemForm.module.scss";
 
-const MealItemForm = (props) => {
+const MealItemForm = ({id, onAdd}) => {
+
+    // const [amount, setAmount] = useState(0);
+
+    const inputRef = useRef();
+
+    const submitHandler= e => {
+        e.preventDefault();
+        const amount = inputRef.current.value;
+        onAdd(amount);
+
+    }
+
     return (
-        <form className={styles.form}>
+        <form className={styles.form} onSubmit={submitHandler}>
             <Input
+                ref={inputRef}
                 label="수량"
                 inputAttr={{
-                    id: "amount_" + props.id,
+                    id: "amount_" + id,
                     type: "number",
                     min: "1",
                     max: "5",

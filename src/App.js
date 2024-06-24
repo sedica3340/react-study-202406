@@ -6,10 +6,19 @@ import CartContext from "./store/cart-context";
 import CartProvider from "./store/CartProvider";
 
 const App = () => {
+    const [cartIsShown, setCartIsShown] = useState(false);
+
+    const showCartHandler = () => {
+        setCartIsShown(true);
+    };
+    const hideCartHandler = () => {
+        setCartIsShown(false);
+    };
+
     return (
         <CartProvider>
-            <Cart />
-            <Header />
+            {cartIsShown && <Cart onClose={hideCartHandler} />}
+            <Header onShowCart={showCartHandler} />
             <div id="main">
                 <Meals />
             </div>
