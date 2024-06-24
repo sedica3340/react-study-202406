@@ -1,17 +1,19 @@
-import React from "react";
+import React, { useContext } from "react";
 import CartIcon from "./CartIcon";
 import styles from "./HeaderCartButton.module.scss";
+import CartContext from "../../../store/cart-context";
 
-const HeaderCartButton = ({onShow}) => {
+const HeaderCartButton = ({ onShow }) => {
+    const { button, icon, badge } = styles;
 
-    const {button, icon, badge} = styles;
+    const { totalAmount } = useContext(CartContext);
     return (
         <button className={button} onClick={onShow}>
             <span className={icon}>
                 <CartIcon />
             </span>
             <span>My Cart</span>
-            <span className={badge}>3</span>
+            <span className={badge}>{totalAmount}</span>
         </button>
     );
 };

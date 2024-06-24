@@ -25,7 +25,7 @@ const Cart = ({ onClose }) => {
             </ul>
             <div className={total}>
                 <span>주문 총액</span>
-                <span>{totalValue}원</span>
+                <span>{new Intl.NumberFormat('ko-KR').format(totalValue)}원</span>
             </div>
             <div className={actions}>
                 <button className={btnAlt} onClick={onClose}>
