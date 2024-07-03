@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, json } from "react-router-dom";
+import EventList from "../components/EventList";
+import EventNavigation from "../layout/EventNavigation";
 
 const Events = () => {
     const [eventList, setEventList] = useState([]);
@@ -15,13 +17,7 @@ const Events = () => {
     return (
         <>
             <h1>Events Page</h1>
-            <ul>
-                {eventList.map((event) => (
-                    <li key={event.id}>
-                        <Link to={`${event.id}`}>{event.title}</Link>
-                    </li>
-                ))}
-            </ul>
+            <EventList eventList={eventList} />
         </>
     );
 };
