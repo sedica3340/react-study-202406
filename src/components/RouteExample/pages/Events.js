@@ -1,6 +1,6 @@
 import React from "react";
 import EventList from "../components/EventList";
-import { useLoaderData } from "react-router-dom";
+import { useLoaderData, json } from "react-router-dom";
 
 const Events = () => {
     // loader가 리턴한 데이터 받아오기
@@ -20,12 +20,12 @@ export const loader = async () => {
     const res = await fetch("http://localhost:8282/events?sort=date");
     if (!res.ok) {
         const errorText = await res.text();
-        throw new Response(
-            JSON.stringify({ msg: errorText }),
-        {
-            status: res.status,
-        }
-                            );
+        throw json(
+            { message: errorText },
+            {
+                status: res.status,
+            }
+        );
     }
     return res;
 };
