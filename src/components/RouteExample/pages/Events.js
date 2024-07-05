@@ -11,22 +11,31 @@ const Events = () => {
     const [events, setEvents] = useState([]);
     const [loading, setLoading] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
+    const [isFinish, setIsFinish] = useState(false);
 
     const loadEvents = async () => {
+
+        if(isFinish) {
+            return;
+        }
         setLoading(true);
         const res = await fetch(
             `http://localhost:8282/events/page/${currentPage}?sort=date`
         );
-        const loadedEvents = await res.json();
-        const updatedEvents = [... events, ...loadedEvents]
-        setCurrentPage(prev => prev + 1);
-
+        const { events: loadedEvents, totalCount } = await res.json();
+        const updatedEvents = [...events, ...loadedEvents];
         setEvents(updatedEvents);
         setLoading(false);
+        setCurrentPage((prev) => prev + 1);
+
+        setIsFinish(totalCount === updatedEvents.length);
+
     };
     const scrollHandler = throttle((e) => {
-        if(loading || 
-            window.innerHeight + document.documentElement.scrollTop >= document.documentElement.offsetHeight
+        if (
+            loading ||
+            window.innerHeight + document.documentElement.scrollTop >=
+                document.documentElement.offsetHeight
         ) {
             return;
         }
@@ -37,14 +46,13 @@ const Events = () => {
         loadEvents();
     }, []);
 
-
     useEffect(() => {
         window.addEventListener("scroll", scrollHandler);
 
         return () => {
             window.removeEventListener("scroll", scrollHandler);
             scrollHandler.cancel();
-        }
+        };
     }, [currentPage, loading]);
     return (
         <>
