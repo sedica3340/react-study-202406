@@ -8,10 +8,12 @@ import Events, {
 } from "./components/RouteExample/pages/Events";
 import EventDetail, {
     loader as eventDetailLoader,
+    action as deleteAction,
 } from "./components/RouteExample/pages/EventDetail";
 import EventLayout from "./components/RouteExample/layout/EventLayout";
 import NewEvent from "./components/RouteExample/pages/NewEvent";
 import EditPage from "./components/RouteExample/pages/EditPage";
+import { action as manipulateAction } from "./components/RouteExample/components/EventForm";
 
 // 라우터 설정
 const router = createBrowserRouter([
@@ -28,7 +30,7 @@ const router = createBrowserRouter([
                     {
                         index: true,
                         element: <Events />,
-                        loader: eventListLoader,
+                        // loader: eventListLoader,
                     },
                     {
                         path: ":eventId",
@@ -38,15 +40,21 @@ const router = createBrowserRouter([
                             {
                                 index: true,
                                 element: <EventDetail />,
+                                action: deleteAction,
                             },
 
                             {
                                 path: "edit",
                                 element: <EditPage />,
+                                action: manipulateAction,
                             },
                         ],
                     },
-                    { path: "new", element: <NewEvent /> },
+                    {
+                        path: "new",
+                        element: <NewEvent />,
+                        action: manipulateAction,
+                    },
                 ],
             },
         ],

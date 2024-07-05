@@ -1,5 +1,5 @@
 import React from "react";
-import { useLoaderData, useRouteLoaderData } from "react-router-dom";
+import { redirect, useLoaderData, useRouteLoaderData } from "react-router-dom";
 import EventItem from "../components/EventItem";
 
 const EventDetail = () => {
@@ -22,3 +22,16 @@ export const loader = async ({params}) => {
     );
     return await response.json();
 };
+
+export const action = async ({params}) => {
+   
+        const response = await fetch(`http://localhost:8282/events/${params.eventId}`, {
+            method: "DELETE",
+        });
+        
+    if(!response.ok) {
+        console.log('삭제실패?');
+    }
+
+    return redirect('/events');
+}
